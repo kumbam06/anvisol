@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anvisol Solutions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4b4bff;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #4b4bff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            margin: 0 10px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: #4b4bff;
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        .section {
+            padding: 100px 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero {
+            padding: 150px 20px;
+            background: url('hero-bg.jpg') no-repeat center center/cover;
+            color: white;
+        }
+
+        .services, .team, .contact {
+            background-color: #3535a5;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        .services-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .service-card {
+            flex: 0 0 auto;
+            width: 250px;
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            scroll-snap-align: start;
+        }
+
+        .testimonials, .brands {
+            background-color: #25258a;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        .brand-logos {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .brand-logos img {
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo"> <img src="anvisol.png" alt="Logo"> </div>
+        <button class="hamburger" onclick="toggleMenu()">☰</button>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="section hero" id="home">
+        <h1>Welcome to Anvisol Solutions</h1>
+        <p>Innovating digital solutions for businesses worldwide.</p>
+    </div>
+
+    <div class="section services" id="services">
+        <h2>Our Services</h2>
+        <div class="services-container">
+            <div class="service-card">Mobile App Development</div>
+            <div class="service-card">Website Design & Development</div>
+            <div class="service-card">SEO & Digital Marketing</div>
+            <div class="service-card">E-commerce Solutions</div>
+            <div class="service-card">Cloud Solutions</div>
+        </div>
+    </div>
+
+    <div class="section team" id="team">
+        <h2>Meet Our Team</h2>
+        <p>Our expert team of developers, designers, and strategists work together to build innovative solutions.</p>
+    </div>
+
+    <div class="section testimonials" id="testimonials">
+        <h2>What Our Clients Say</h2>
+        <p>"Anvisol helped us scale our business efficiently!" - John Doe</p>
+        <p>"Highly recommend their services for startups." - Jane Smith</p>
+    </div>
+
+    <div class="section brands" id="brands">
+        <h2>Trusted by Leading Brands</h2>
+        <div class="brand-logos">
+            <img src="brand1.png" alt="Brand 1">
+            <img src="brand2.png" alt="Brand 2">
+            <img src="brand3.png" alt="Brand 3">
+            <img src="brand4.png" alt="Brand 4">
+        </div>
+    </div>
+
+    <div class="section contact" id="contact">
+        <h2>Contact Us</h2>
+        <p>Email: contact@anvisol.in</p>
+        <p>Phone: +91 9876543210</p>
+        <p>Address: 123 Tech Park, Innovation City</p>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const sections = document.querySelectorAll(".section");
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("show");
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
