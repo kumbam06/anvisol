@@ -1,26 +1,43 @@
 const year = document.getElementById("year");
-if (year) year.textContent = new Date().getFullYear();
+if (year) year.textContent = String(new Date().getFullYear());
 
-const hamburger = document.querySelector(".hamburger");
-const navMenu = document.querySelector(".nav-menu");
-hamburger?.addEventListener("click", () => {
-    const open = navMenu.classList.toggle("is-open");
-    hamburger.classList.toggle("active", open);
-    hamburger.setAttribute("aria-expanded", String(open));
+const themeToggle = document.getElementById("theme-toggle");
+const themeColor = document.getElementById("theme-color");
+
+function currentTheme() {
+    return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+}
+
+function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    localStorage.setItem("anvilabs-theme", theme);
+    if (themeColor) themeColor.setAttribute("content", theme === "dark" ? "#111318" : "#FAFCFC");
+    themeToggle?.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+}
+
+applyTheme(currentTheme());
+themeToggle?.addEventListener("click", () => applyTheme(currentTheme() === "dark" ? "light" : "dark"));
+
+const burger = document.querySelector(".burger");
+const links = document.querySelector(".links");
+burger?.addEventListener("click", () => {
+    const open = links?.classList.toggle("is-open");
+    burger.classList.toggle("active", Boolean(open));
+    burger.setAttribute("aria-expanded", String(Boolean(open)));
 });
-navMenu?.querySelectorAll("a").forEach((link) => {
+links?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-        navMenu.classList.remove("is-open");
-        hamburger?.classList.remove("active");
-        hamburger?.setAttribute("aria-expanded", "false");
+        links.classList.remove("is-open");
+        burger?.classList.remove("active");
+        burger?.setAttribute("aria-expanded", "false");
     });
 });
 
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", (event) => {
         const href = anchor.getAttribute("href");
-        if (!href || href === "#docs") return;
-        const target = document.querySelector(href);
+        const target = href ? document.querySelector(href) : null;
         if (!target) return;
         event.preventDefault();
         target.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -39,23 +56,8 @@ function showToast(message) {
     toast.textContent = message;
     toast.classList.add("is-on");
     window.clearTimeout(showToast.timer);
-    showToast.timer = window.setTimeout(() => toast.classList.remove("is-on"), 2800);
+    showToast.timer = window.setTimeout(() => toast.classList.remove("is-on"), 2600);
 }
-
-const themeToggle = document.getElementById("theme-toggle");
-const themeColor = document.getElementById("theme-color");
-function currentTheme() {
-    return document.documentElement.dataset.theme === "light" ? "light" : "dark";
-}
-function applyTheme(theme) {
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
-    localStorage.setItem("anvilabs-theme", theme);
-    if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f4f4f5" : "#09090b");
-    themeToggle?.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
-}
-applyTheme(currentTheme());
-themeToggle?.addEventListener("click", () => applyTheme(currentTheme() === "dark" ? "light" : "dark"));
 
 function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, (char) => ({
@@ -63,145 +65,102 @@ function escapeHtml(value) {
     }[char]));
 }
 
-const stages = [
-    { id: "transit", label: "In Transit", log: "Edge webhook: scan @ origin hub" },
-    { id: "delivery", label: "Out for Delivery", log: "Dispatch alert: courier assigned" },
-    { id: "delivered", label: "Delivered", log: "ETA engine closed the window" }
-];
-
-const simForm = document.getElementById("sim-form");
-const simLog = document.getElementById("sim-log");
-const simChip = document.getElementById("sim-chip");
-const simRun = document.getElementById("sim-run");
-let simTimer = 0;
-
-function resetSim() {
-    document.querySelectorAll(".tag").forEach((tag) => tag.classList.remove("is-on"));
-    if (simChip) {
-        simChip.textContent = "Idle";
-        simChip.className = "status-chip";
-    }
+function parseTask(text) {
+    const value = (text || "").trim() || "New study block";
+    const lower = value.toLowerCase();
+    let when = "Today";
+    if (lower.includes("tomorrow")) when = "Tomorrow";
+    if (lower.includes("all day")) when = "All day";
+    if (lower.includes("urgent")) when = "Urgent";
+    const time = value.match(/(\d{1,2}(?::\d{2})?\s?(?:am|pm))/i);
+    if (time) when = `${when === "Today" ? "" : `${when} · `}${time[1].toUpperCase()}`.replace(/^ · /, "");
+    const title = value
+        .replace(/\b(tomorrow|today|urgent|all day)\b/gi, "")
+        .replace(/\b\d{1,2}(?::\d{2})?\s?(?:am|pm)\b/gi, "")
+        .replace(/\s+/g, " ")
+        .trim() || value;
+    return { title, when };
 }
 
-function runSimulator(id) {
-    window.clearTimeout(simTimer);
-    resetSim();
-    const trackingId = escapeHtml(id || "ANV-8841-QX");
-    if (simLog) simLog.innerHTML = `<li class="mono is-now">Polling ${trackingId}…</li>`;
-    if (simChip) {
-        simChip.textContent = "Live";
-        simChip.className = "status-chip is-run";
+const planForm = document.getElementById("plan-form");
+const taskList = document.getElementById("task-list");
+planForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const input = document.getElementById("plan-input");
+    const parsed = parseTask(input?.value);
+    const item = document.createElement("li");
+    item.innerHTML = `<b>${escapeHtml(parsed.title)}</b><span>${escapeHtml(parsed.when)}</span>`;
+    taskList?.prepend(item);
+    showToast("Added to today’s planner.");
+});
+
+const WORK = 25 * 60;
+const BREAK = 5 * 60;
+let remaining = WORK;
+let ticking = 0;
+let onBreak = false;
+const face = document.getElementById("timer-face");
+const startBtn = document.getElementById("timer-start");
+const note = document.getElementById("timer-note");
+
+function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function paintTimer() {
+    if (face) face.textContent = formatTime(remaining);
+}
+
+function stopTick() {
+    window.clearInterval(ticking);
+    ticking = 0;
+    if (startBtn) startBtn.textContent = "Start";
+}
+
+startBtn?.addEventListener("click", () => {
+    if (ticking) {
+        stopTick();
+        return;
     }
-    if (simRun) {
-        simRun.disabled = true;
-        simRun.textContent = "Polling…";
-    }
-    stages.forEach((stage, index) => {
-        simTimer = window.setTimeout(() => {
-            document.querySelector(`.tag[data-stage="${stage.id}"]`)?.classList.add("is-on");
-            const line = document.createElement("li");
-            line.className = "mono is-now";
-            line.textContent = `${stage.label} · ${stage.log}`;
-            simLog?.querySelectorAll("li").forEach((item) => item.classList.remove("is-now"));
-            simLog?.append(line);
-            if (index === stages.length - 1) {
-                if (simChip) {
-                    simChip.textContent = "Delivered";
-                    simChip.className = "status-chip is-ok";
-                }
-                if (simRun) {
-                    simRun.disabled = false;
-                    simRun.textContent = "Run telemetry";
-                }
-                showToast("Track Ed completed the telemetry run.");
+    startBtn.textContent = "Pause";
+    ticking = window.setInterval(() => {
+        remaining -= 1;
+        if (remaining <= 0) {
+            onBreak = !onBreak;
+            remaining = onBreak ? BREAK : WORK;
+            if (note) {
+                note.textContent = onBreak
+                    ? "Break · 5 minutes. Stretch, then start another block."
+                    : "Work block · 25 minutes, then a break.";
             }
-        }, 900 * (index + 1));
-    });
-}
-
-function launchDemo() {
-    document.getElementById("tracked")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.setTimeout(() => {
-        const input = document.getElementById("tracking-id");
-        runSimulator(input?.value);
-    }, 450);
-}
-
-simForm?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    runSimulator(document.getElementById("tracking-id")?.value);
-});
-document.getElementById("launch-demo")?.addEventListener("click", launchDemo);
-document.getElementById("try-tracked")?.addEventListener("click", (event) => {
-    event.preventDefault();
-    launchDemo();
+            showToast(onBreak ? "Break time." : "Back to a focus block.");
+        }
+        paintTimer();
+    }, 1000);
 });
 
-document.getElementById("access-form")?.addEventListener("submit", (event) => {
+document.getElementById("timer-reset")?.addEventListener("click", () => {
+    stopTick();
+    onBreak = false;
+    remaining = WORK;
+    paintTimer();
+    if (note) note.textContent = "Work block · 25 minutes, then a break.";
+});
+
+document.getElementById("id-card")?.addEventListener("click", (event) => {
+    event.currentTarget.classList.toggle("is-back");
+});
+
+document.getElementById("mail-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
-    const note = document.getElementById("access-note");
-    const email = document.getElementById("access-email");
-    if (note) {
-        note.hidden = false;
-        note.textContent = `You’re on the list${email?.value ? ` as ${email.value}` : ""}. Release notes go out from AnviLabs.`;
+    const mail = document.getElementById("mail");
+    const status = document.getElementById("mail-note");
+    if (status) {
+        status.hidden = false;
+        status.textContent = `Saved${mail?.value ? ` for ${mail.value}` : ""}. We’ll send Track Ed notes only.`;
     }
     event.target.reset();
-    showToast("You’re subscribed to AnviLabs updates.");
-});
-
-const docsModal = document.getElementById("docs-modal");
-const legalModal = document.getElementById("legal-modal");
-const legalTitle = document.getElementById("legal-title");
-const legalBody = document.getElementById("legal-body");
-
-function openModal(modal) {
-    if (!modal) return;
-    modal.hidden = false;
-    document.body.style.overflow = "hidden";
-}
-function closeModals() {
-    if (docsModal) docsModal.hidden = true;
-    if (legalModal) legalModal.hidden = true;
-    document.body.style.overflow = "";
-}
-
-document.querySelectorAll("[data-open-docs]").forEach((el) => {
-    el.addEventListener("click", (event) => {
-        event.preventDefault();
-        openModal(docsModal);
-    });
-});
-
-const legal = {
-    privacy: {
-        title: "Privacy",
-        html: "<p>AnviLabs collects the email you submit for product updates. We do not sell personal data. Simulator runs stay in your browser.</p>"
-    },
-    terms: {
-        title: "Terms",
-        html: "<p>Track Ed, AnviPulse, and AnviVault are AnviLabs products. The on-site demo is illustrative. Production use requires an AnviLabs workspace.</p>"
-    }
-};
-
-document.querySelectorAll("[data-open-legal]").forEach((el) => {
-    el.addEventListener("click", () => {
-        const key = el.getAttribute("data-open-legal");
-        const copy = legal[key];
-        if (!copy) return;
-        if (legalTitle) legalTitle.textContent = copy.title;
-        if (legalBody) legalBody.innerHTML = copy.html;
-        openModal(legalModal);
-    });
-});
-
-document.querySelectorAll("[data-close-modal]").forEach((el) => {
-    el.addEventListener("click", closeModals);
-});
-document.querySelectorAll(".modal").forEach((modal) => {
-    modal.addEventListener("click", (event) => {
-        if (event.target === modal) closeModals();
-    });
-});
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeModals();
+    showToast("You’re on the Track Ed notes list.");
 });

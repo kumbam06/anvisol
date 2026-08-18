@@ -1,3 +1,3 @@
 # AnviLabs
 
-Product studio site for AnviLabs. Flagship SaaS: Track Ed (package telemetry and fleet logistics). Static site for GitHub Pages.
+Public site for [AnviLabs](https://anvilabs.com). Flagship product is **Track Ed**, the student productivity iOS app in [github.com/kumbam06/TrackEd](https://github.com/kumbam06/TrackEd) (Xcode project name: GradMate).
