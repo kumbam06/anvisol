@@ -1,6 +1,28 @@
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
+const themeToggle = document.getElementById("theme-toggle");
+const themeColor = document.getElementById("theme-color");
+
+function currentTheme() {
+    return document.documentElement.dataset.theme === "light" ? "light" : "dark";
+}
+
+function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    localStorage.setItem("anvilabs-theme", theme);
+    if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#efeaf8" : "#07080f");
+    if (themeToggle) {
+        themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    }
+}
+
+applyTheme(currentTheme());
+themeToggle?.addEventListener("click", () => {
+    applyTheme(currentTheme() === "dark" ? "light" : "dark");
+});
+
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
 hamburger?.addEventListener("click", () => {
@@ -81,6 +103,9 @@ window.addEventListener("mousemove", (event) => {
 function drawField() {
     if (!ctx || !canvas) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const styles = getComputedStyle(document.documentElement);
+    const near = styles.getPropertyValue("--field-near").trim() || "rgba(62, 240, 194, 0.55)";
+    const far = styles.getPropertyValue("--field-far").trim() || "rgba(139, 124, 255, 0.26)";
     dots.forEach((dot) => {
         dot.x += dot.vx;
         dot.y += dot.vy;
@@ -90,7 +115,7 @@ function drawField() {
         const dy = dot.y - pointer.y;
         const dist = Math.hypot(dx, dy);
         ctx.beginPath();
-        ctx.fillStyle = dist < 140 ? "rgba(46, 230, 166, 0.55)" : "rgba(124, 92, 255, 0.28)";
+        ctx.fillStyle = dist < 140 ? near : far;
         ctx.arc(dot.x, dot.y, dist < 140 ? 2.2 : 1.2, 0, Math.PI * 2);
         ctx.fill();
     });
