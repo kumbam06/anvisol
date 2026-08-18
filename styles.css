@@ -697,12 +697,6 @@ section {
     font-size: 0.85rem;
 }
 
-section {
-    position: relative;
-    z-index: 1;
-    padding: 6rem 0;
-}
-
 .section-head {
     max-width: 640px;
     margin-bottom: 2.4rem;
