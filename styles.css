@@ -206,7 +206,6 @@ html[data-theme="light"] .grain {
 }
 
 .logo img,
-.studio-card img,
 .footer-brand img {
     height: auto;
     border-radius: 10px;
@@ -220,12 +219,6 @@ html[data-theme="light"] .grain {
 
 .logo span {
     white-space: nowrap;
-}
-
-.studio-card img {
-    height: 56px;
-    width: 56px;
-    margin-bottom: 0.8rem;
 }
 
 .footer-brand img {
@@ -662,8 +655,7 @@ section {
 
 .lab-grid article,
 .studio-points div,
-.capability-list li,
-.studio-card {
+.capability-list li {
     border-radius: 18px;
     padding: 1rem 1.1rem;
 }
@@ -801,7 +793,7 @@ section {
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
     gap: 2rem;
-    align-items: start;
+    align-items: stretch;
 }
 
 .tracker-app,
@@ -886,11 +878,45 @@ section {
     margin-top: 1.4rem;
 }
 
-.studio-card ul {
-    margin-top: 1rem;
-    display: grid;
-    gap: 0.5rem;
+.studio-card {
+    border-radius: 28px;
+    padding: 1.6rem 1.5rem 1.7rem;
+    height: 100%;
+}
+
+.studio-lead {
     color: var(--muted);
+    margin: 0.35rem 0 1.2rem;
+}
+
+.studio-facts {
+    display: grid;
+    gap: 0.95rem;
+}
+
+.studio-facts div {
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+}
+
+.studio-facts dt {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.studio-facts dd {
+    color: var(--text);
+    margin: 0;
+}
+
+.studio-facts a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
 }
 
 .contact-list {
@@ -954,14 +980,15 @@ section {
     color: var(--muted);
 }
 
-.footer-links {
-    display: flex;
-    gap: 1.2rem;
-}
-
-.footer-links a {
+.footer-mail {
     color: var(--muted);
     text-decoration: none;
+    font-weight: 600;
+    align-self: center;
+}
+
+.footer-mail:hover {
+    color: var(--text);
 }
 
 .footer-bottom {
@@ -1063,9 +1090,5 @@ section {
 
     .hero-metrics {
         grid-template-columns: 1fr;
-    }
-
-    .footer-links {
-        flex-wrap: wrap;
     }
 }
