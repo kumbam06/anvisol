@@ -108,8 +108,8 @@ if (canvas && ctx) {
 
 const labels = {
     tracked: "track-ed.app",
-    lab: "anvisol.studio/lab",
-    next: "anvisol.studio/next"
+    lab: "anvilabs.com/lab",
+    next: "anvilabs.com/next"
 };
 document.querySelectorAll(".switcher-btn").forEach((button) => {
     button.addEventListener("click", () => {
@@ -122,7 +122,7 @@ document.querySelectorAll(".switcher-btn").forEach((button) => {
             panel.classList.toggle("is-visible", panel.dataset.panel === product);
         });
         const stageLabel = document.getElementById("stage-label");
-        if (stageLabel) stageLabel.textContent = labels[product] || "anvisol";
+        if (stageLabel) stageLabel.textContent = labels[product] || "anvilabs";
     });
 });
 
@@ -141,7 +141,7 @@ const shipCopy = [
     {
         kicker: "Stage 01",
         title: "Own the problem",
-        body: "We do not take random client briefs as the core business. We pick problems Anvisol can operate for years — then we productize the solution."
+        body: "We do not take random client briefs as the core business. We pick problems Anvilabs can operate for years — then we productize the solution."
     },
     {
         kicker: "Stage 02",
@@ -221,8 +221,8 @@ contactForm?.addEventListener("submit", (event) => {
     const note = document.getElementById("form-note");
     if (note) {
         note.hidden = false;
-        note.textContent = "Message captured locally. Email contact@anvisol.in and we will reply.";
+        note.textContent = "Message captured locally. Email contact@anvilabs.com and we will reply.";
     }
     contactForm.reset();
-    showToast("Thanks — Anvisol got your note.");
+    showToast("Thanks — Anvilabs got your note.");
 });
