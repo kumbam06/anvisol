@@ -722,12 +722,6 @@ section {
     margin-top: 1.4rem;
 }
 
-.studio-card img {
-    height: 56px;
-    margin-bottom: 0.8rem;
-    border-radius: 12px;
-}
-
 .studio-card ul {
     margin-top: 1rem;
     display: grid;
