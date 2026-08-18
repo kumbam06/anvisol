@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Anvilabs — Our products, and apps built for you</title>
-    <meta name="description" content="Anvilabs ships its own products, starting with TrackEd for students, and builds custom apps for people and teams.">
-    <meta name="theme-color" id="theme-color" content="#070812">
+    <title>AnviLabs — Intelligent software for modern logistics</title>
+    <meta name="description" content="AnviLabs builds standalone SaaS products. Track Ed is our flagship package telemetry and fleet logistics platform.">
+    <meta name="theme-color" id="theme-color" content="#09090b">
     <meta name="color-scheme" content="dark light">
     <script>
         (function () {
             var stored = localStorage.getItem("anvilabs-theme");
-            var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+            var theme = stored || "dark";
             document.documentElement.dataset.theme = theme;
             document.documentElement.style.colorScheme = theme;
         })();
@@ -18,37 +18,37 @@
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=studio-align">
+    <link rel="stylesheet" href="styles.css?v=saas-2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="atmosphere" aria-hidden="true">
         <div class="aurora a1"></div>
         <div class="aurora a2"></div>
-        <div class="aurora a3"></div>
-        <div class="spatial-grid"></div>
+        <div class="grid"></div>
         <div class="grain"></div>
     </div>
-    <canvas id="field" aria-hidden="true"></canvas>
     <div class="scroll-progress" aria-hidden="true"></div>
 
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#home" class="logo" aria-label="Anvilabs home">
-                <img src="icon.png" alt="" width="34" height="34">
-                <span>Anvilabs</span>
+            <a href="#home" class="logo" aria-label="AnviLabs home">
+                <img src="icon.png" alt="" width="32" height="32">
+                <span class="brand">AnviLabs</span>
+                <span class="labs-badge">Labs</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
                 <li><a href="#products">Products</a></li>
-                <li><a href="#tracked">TrackEd</a></li>
-                <li><a href="#ship">How we ship</a></li>
-                <li><a href="#studio">Studio</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#tracked">Track Ed</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#about">About</a></li>
             </ul>
             <div class="nav-tools">
+                <a href="#docs" class="nav-doc" data-open-docs>Documentation</a>
+                <a href="#tracked" class="btn btn-primary nav-cta" id="try-tracked">Try Track Ed</a>
                 <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode">
                     <span class="theme-icon sun" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.2 6.2 4.8 4.8M19.2 19.2l-1.4-1.4M6.2 17.8 4.8 19.2M19.2 4.8l-1.4 1.4"/></svg>
@@ -58,110 +58,84 @@
                     </span>
                 </button>
                 <button class="hamburger" aria-label="Open menu" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </button>
             </div>
         </div>
     </nav>
 
     <section id="home" class="hero">
-        <div class="hero-glow"></div>
-        <div class="hero-content">
-            <div class="hero-copy">
-                <p class="eyebrow reveal">Our products · Custom apps</p>
-                <h1 class="hero-title">
-                    We ship our own products
-                    <span>and we build apps for people too.</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Anvilabs designs, builds, and launches software. TrackEd is our student productivity iOS app. We also take on custom work when you need an application of your own.
-                </p>
-                <div class="hero-actions">
-                    <a href="#products" class="btn btn-primary magnetic">See the catalog</a>
-                    <a href="#tracked" class="btn btn-ghost magnetic">See TrackEd</a>
-                </div>
-                <div class="hero-metrics">
-                    <div class="metric">
-                        <strong>TrackEd</strong>
-                        <span>Student iOS app</span>
-                    </div>
-                    <div class="metric">
-                        <strong>Custom apps</strong>
-                        <span>Built for people</span>
-                    </div>
-                    <div class="metric">
-                        <strong>Ship loop</strong>
-                        <span>Design → build → launch</span>
-                    </div>
-                </div>
+        <div class="container hero-inner">
+            <p class="suite-badge"><span class="pulse-dot"></span> AnviLabs Software Suite 2.0</p>
+            <h1>Intelligent Software Built for Modern Logistics and Operations.</h1>
+            <p class="lede">AnviLabs engineers high-performance SaaS tools. From autonomous package telemetry to predictive analytics, we turn operational friction into effortless workflows.</p>
+            <div class="hero-actions">
+                <button type="button" class="btn btn-primary" id="launch-demo">Launch Track Ed Demo</button>
+                <a href="#products" class="btn btn-ghost">Explore Our Product Ecosystem</a>
+            </div>
+            <dl class="hero-specs">
+                <div><dt>Latency</dt><dd class="mono">&lt;50ms</dd></div>
+                <div><dt>Uptime SLO</dt><dd class="mono">99.99%</dd></div>
+                <div><dt>API</dt><dd class="mono">REST + GraphQL</dd></div>
+            </dl>
+        </div>
+    </section>
+
+    <section id="tracked" class="tracked">
+        <div class="container">
+            <div class="section-head">
+                <p class="eyebrow">Flagship product</p>
+                <h2>Track Ed</h2>
+                <p>Smart package telemetry and fleet logistics. Watch a live simulator, then plug into the same event model in production.</p>
             </div>
 
-            <div class="hero-stage">
-                <div class="product-switcher" role="tablist" aria-label="Featured products">
-                    <button class="switcher-btn is-active" data-product="tracked" role="tab" aria-selected="true">TrackEd</button>
-                    <button class="switcher-btn" data-product="lab" role="tab" aria-selected="false">Product Lab</button>
-                    <button class="switcher-btn" data-product="next" role="tab" aria-selected="false">Next drop</button>
+            <div class="tracked-layout">
+                <div class="sim-card" id="sandbox">
+                    <div class="sim-head">
+                        <div>
+                            <p class="mono kicker">sandbox.tracked.anvilabs</p>
+                            <h3>Live tracking simulator</h3>
+                        </div>
+                        <span class="status-chip" id="sim-chip">Idle</span>
+                    </div>
+                    <form class="sim-form" id="sim-form">
+                        <label class="mono" for="tracking-id">Tracking ID</label>
+                        <div class="sim-row">
+                            <input id="tracking-id" name="id" value="ANV-8841-QX" autocomplete="off" aria-label="Tracking ID">
+                            <button type="submit" class="btn btn-primary" id="sim-run">Run telemetry</button>
+                        </div>
+                    </form>
+                    <div class="status-row" aria-live="polite">
+                        <span class="tag" data-stage="transit">In Transit</span>
+                        <span class="tag" data-stage="delivery">Out for Delivery</span>
+                        <span class="tag" data-stage="delivered">Delivered</span>
+                    </div>
+                    <ol class="sim-log" id="sim-log">
+                        <li class="mono">Ready. Submit a tracking ID to poll edge webhooks.</li>
+                    </ol>
                 </div>
-                <div class="stage-frame" data-tilt>
-                    <div class="stage-chrome">
-                        <span></span><span></span><span></span>
-                        <p id="stage-label">TrackEd · iOS</p>
-                    </div>
-                    <div class="stage-body" id="stage-body">
-                        <div class="stage-panel is-visible" data-panel="tracked">
-                            <div class="mini-app">
-                                <header>
-                                    <div>
-                                        <p class="mini-kicker">Student productivity</p>
-                                        <h3>TrackEd</h3>
-                                    </div>
-                                    <span class="pill live">iOS</span>
-                                </header>
-                                <div class="track-row">
-                                    <input id="hero-track-input" type="text" value="Study SwiftUI at 8pm" aria-label="Plan a task">
-                                    <button id="hero-track-btn" type="button">Plan</button>
-                                </div>
-                                <ul class="pulse-list" id="hero-pulse">
-                                    <li class="now"><i></i><div><b>Focus session</b><span>25 min · Pomodoro</span></div></li>
-                                    <li><i></i><div><b>Study SwiftUI</b><span>Today · 8:00 PM</span></div></li>
-                                    <li><i></i><div><b>Update resume PDF</b><span>Career · tonight</span></div></li>
-                                    <li class="done"><i></i><div><b>Internship notes</b><span>Done this morning</span></div></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="stage-panel" data-panel="lab">
-                            <div class="lab-grid">
-                                <article>
-                                    <span>01</span>
-                                    <h4>Own products</h4>
-                                    <p>We invent and ship Anvilabs apps, starting with TrackEd.</p>
-                                </article>
-                                <article>
-                                    <span>02</span>
-                                    <h4>Custom apps</h4>
-                                    <p>We also build applications for people and teams who need their own product.</p>
-                                </article>
-                                <article>
-                                    <span>03</span>
-                                    <h4>Ship and improve</h4>
-                                    <p>A usable first version, then iterate with real feedback.</p>
-                                </article>
-                            </div>
-                        </div>
-                        <div class="stage-panel" data-panel="next">
-                            <div class="next-drop">
-                                <p class="mini-kicker">In the pipeline</p>
-                                <h3>More Anvilabs products</h3>
-                                <p>The next apps are being designed in the same studio that shipped TrackEd — focused utilities students and builders actually keep open.</p>
-                                <div class="progress-wrap">
-                                    <div class="progress-bar" id="lab-progress"></div>
-                                </div>
-                                <p class="progress-note">Research &amp; prototyping in motion</p>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="pillars">
+                    <article>
+                        <p class="mono">01</p>
+                        <h3>Real-Time Telemetry</h3>
+                        <p>Microsecond location polling via modern edge webhooks. Scan events land in the console as they happen.</p>
+                    </article>
+                    <article>
+                        <p class="mono">02</p>
+                        <h3>Smart Dispatch Alerts</h3>
+                        <p>Instant push, SMS, and automated email trigger pipelines when a milestone actually matters.</p>
+                    </article>
+                    <article>
+                        <p class="mono">03</p>
+                        <h3>Predictive ETA Engine</h3>
+                        <p>Machine-learning delivery windows from hub dwell, traffic, and historical lane performance.</p>
+                    </article>
+                    <article>
+                        <p class="mono">04</p>
+                        <h3>Enterprise API</h3>
+                        <p>REST and GraphQL endpoints with a 99.99% uptime guarantee and signed webhook deliveries.</p>
+                    </article>
                 </div>
             </div>
         </div>
@@ -170,307 +144,200 @@
     <section id="products" class="products">
         <div class="container">
             <div class="section-head">
-                <p class="eyebrow">Catalog</p>
-                <h2>What we ship</h2>
-                <p>Anvilabs products we own, plus custom apps we can build for you.</p>
+                <p class="eyebrow">Product ecosystem</p>
+                <h2>The AnviLabs product suite</h2>
+                <p>Standalone, scalable software. One live platform, two products on the Labs roadmap.</p>
             </div>
-
-            <div class="filter-bar">
-                <button class="filter is-active" data-filter="all">All</button>
-                <button class="filter" data-filter="live">Shipped</button>
-                <button class="filter" data-filter="building">Building</button>
-            </div>
-
-            <div class="product-grid">
-                <article class="product-card featured" data-category="live" data-tilt>
-                    <div class="card-top">
-                        <span class="pill live">Flagship</span>
-                        <span class="card-tag">Students</span>
+            <div class="suite-grid">
+                <article class="suite-card is-live">
+                    <div class="suite-top">
+                        <span class="pill live">Live</span>
+                        <span class="mono">SaaS</span>
                     </div>
-                    <h3>TrackEd</h3>
-                    <p>A student productivity iOS app: smart planner, focus sessions, career profile, resume PDF, and real-time chat. Built with SwiftUI and Firebase.</p>
-                    <div class="card-meta">
-                        <span>iOS 17+</span>
-                        <span>SwiftUI</span>
-                        <span>Firebase</span>
-                    </div>
-                    <a href="#tracked" class="card-link">See how it works →</a>
+                    <h3>Track Ed</h3>
+                    <p>Smart package telemetry and fleet logistics platform. Simulator, alerts, ETAs, and an enterprise API.</p>
+                    <a href="#tracked" class="card-link">Open the demo →</a>
                 </article>
-
-                <article class="product-card" data-category="building" data-tilt>
-                    <div class="card-top">
-                        <span class="pill soon">Building</span>
-                        <span class="card-tag">Ops</span>
+                <article class="suite-card">
+                    <div class="suite-top">
+                        <span class="pill beta">Private Beta</span>
+                        <span class="mono">In development</span>
                     </div>
-                    <h3>Anvil Flow</h3>
-                    <p>A lightweight product-ops board for founders who ship weekly — roadmap, releases, and feedback in one place.</p>
-                    <div class="card-meta">
-                        <span>Prototype</span>
-                        <span>Founder tools</span>
-                    </div>
-                    <a href="#contact" class="card-link">Join the waitlist →</a>
+                    <h3>AnviPulse</h3>
+                    <p>Autonomous workflow monitoring and exception handling across ops stacks.</p>
+                    <a href="#access" class="card-link">Request beta access →</a>
                 </article>
-
-                <article class="product-card" data-category="building" data-tilt>
-                    <div class="card-top">
-                        <span class="pill soon">Building</span>
-                        <span class="card-tag">Studio</span>
+                <article class="suite-card">
+                    <div class="suite-top">
+                        <span class="pill soon">Coming Soon</span>
+                        <span class="mono">Concept</span>
                     </div>
-                    <h3>Launch Kit</h3>
-                    <p>Our internal system for taking an idea from sketch to public URL. Being productized so others can ship the same way.</p>
-                    <div class="card-meta">
-                        <span>Internal → public</span>
-                        <span>Shipping OS</span>
-                    </div>
-                    <a href="#ship" class="card-link">See how we ship →</a>
+                    <h3>AnviVault</h3>
+                    <p>Zero-knowledge encrypted operational audit logging for regulated fleets.</p>
+                    <a href="#roadmap" class="card-link">See the roadmap →</a>
                 </article>
             </div>
         </div>
     </section>
 
-    <section id="tracked" class="tracked">
+    <section id="architecture" class="architecture">
         <div class="container">
             <div class="section-head">
-                <p class="eyebrow">Flagship · iOS</p>
-                <h2>TrackEd — plan the day, build the career</h2>
-                <p>Natural-language planning, Pomodoro focus, a digital ID, resume export, and career records in one iOS app.</p>
+                <p class="eyebrow">Infrastructure</p>
+                <h2>Engineering standards</h2>
+                <p>Reliability is a product feature. These are the bars every AnviLabs service is built against.</p>
             </div>
-
-            <div class="tracked-layout">
-                <div class="tracker-app">
-                    <div class="tracker-head">
-                        <div>
-                            <h3>Today’s planner</h3>
-                            <p>Interactive demo of how students add work in TrackEd</p>
-                        </div>
-                        <span class="pill live">SwiftUI</span>
-                    </div>
-                    <form class="tracker-form" id="tracker-form">
-                        <label for="tracking-number">Add with natural language</label>
-                        <div class="tracker-input">
-                            <input id="tracking-number" name="task" type="text" value="Study algorithms at 7pm" autocomplete="off">
-                            <button type="submit" class="btn btn-primary">Add task</button>
-                        </div>
-                    </form>
-                    <div class="tracker-status" id="tracker-status">Try: “Submit lab report urgent”</div>
-                    <ol class="route" id="route">
-                        <li class="now">
-                            <span class="dot"></span>
-                            <div>
-                                <strong>Focus · 25:00</strong>
-                                <p>Pomodoro with short and long breaks</p>
-                            </div>
-                            <time>Now</time>
-                        </li>
-                        <li>
-                            <span class="dot"></span>
-                            <div>
-                                <strong>Study SwiftUI</strong>
-                                <p>Planner · tonight 8:00 PM</p>
-                            </div>
-                            <time>8 PM</time>
-                        </li>
-                        <li>
-                            <span class="dot"></span>
-                            <div>
-                                <strong>Export resume PDF</strong>
-                                <p>From skills, projects, and internships</p>
-                            </div>
-                            <time>Career</time>
-                        </li>
-                        <li>
-                            <span class="dot"></span>
-                            <div>
-                                <strong>Chat with study group</strong>
-                                <p>Realtime Firestore messaging</p>
-                            </div>
-                            <time>Chat</time>
-                        </li>
-                        <li class="done">
-                            <span class="dot"></span>
-                            <div>
-                                <strong>Profile ID card</strong>
-                                <p>Shareable front/back student card</p>
-                            </div>
-                            <time>Done</time>
-                        </li>
-                    </ol>
-                </div>
-
-                <div class="tracked-copy">
-                    <article>
-                        <h3>One place for school and career</h3>
-                        <p>TrackEd helps students run the day and the résumé: tasks, focus sessions, skills, internships, a shareable ID card, and a PDF resume — with Google Sign-In and Firebase.</p>
-                    </article>
-                    <ul class="capability-list">
-                        <li>
-                            <b>Smart planner</b>
-                            <span>Type “Study SwiftUI at 8pm tomorrow.” Calendar view, categories, and priorities.</span>
-                        </li>
-                        <li>
-                            <b>Focus + career</b>
-                            <span>Pomodoro sessions, projects, internships, certifications, work history, and resume export.</span>
-                        </li>
-                        <li>
-                            <b>iOS, built to last</b>
-                            <span>SwiftUI, Core Data, Firestore chat, push notifications, light and dark mode.</span>
-                        </li>
-                    </ul>
-                    <div class="hero-actions">
-                        <a href="https://github.com/kumbam06/TrackEd" class="btn btn-primary magnetic" target="_blank" rel="noopener">View on GitHub</a>
-                        <a href="#contact" class="btn btn-ghost magnetic">Talk about TrackEd</a>
-                    </div>
-                </div>
+            <div class="metric-grid">
+                <article>
+                    <p class="mono metric-value">&lt;50ms</p>
+                    <h3>Global Latency</h3>
+                    <p>Edge-routed reads so consoles stay snappy from any region.</p>
+                </article>
+                <article>
+                    <p class="mono metric-value">SOC 2</p>
+                    <h3>SOC-2 Ready Architecture</h3>
+                    <p>Controls mapped for access, encryption, logging, and vendor review.</p>
+                </article>
+                <article>
+                    <p class="mono metric-value">E2E</p>
+                    <h3>End-to-End Encryption</h3>
+                    <p>TLS in transit, encrypted stores at rest, signed webhooks on the way out.</p>
+                </article>
+                <article>
+                    <p class="mono metric-value">∞</p>
+                    <h3>Scale-Ready Microservices</h3>
+                    <p>Isolated ingest, identity, and query planes that scale independently.</p>
+                </article>
             </div>
         </div>
     </section>
 
-    <section id="ship" class="ship">
+    <section id="roadmap" class="roadmap">
         <div class="container">
             <div class="section-head">
-                <p class="eyebrow">Process</p>
-                <h2>How we build</h2>
-                <p>The same loop for Anvilabs products and for apps we build with you.</p>
+                <p class="eyebrow">Labs</p>
+                <h2>Roadmap</h2>
+                <p>What is live, what is in private beta, and what is still a concept.</p>
             </div>
-
-            <div class="ship-board">
-                <div class="ship-steps" role="tablist">
-                    <button class="ship-step is-active" data-step="0">
-                        <span>01</span>
-                        Understand the problem
-                    </button>
-                    <button class="ship-step" data-step="1">
-                        <span>02</span>
-                        Design a useful first version
-                    </button>
-                    <button class="ship-step" data-step="2">
-                        <span>03</span>
-                        Build and put it in people’s hands
-                    </button>
-                    <button class="ship-step" data-step="3">
-                        <span>04</span>
-                        Measure, improve, keep going
-                    </button>
-                </div>
-                <div class="ship-detail" id="ship-detail">
-                    <p class="mini-kicker">Stage 01</p>
-                    <h3>Understand the problem</h3>
-                    <p>Whether it is an Anvilabs product or an app for you, we start with who will use it and what has to work on day one.</p>
-                </div>
-            </div>
+            <ol class="road">
+                <li>
+                    <span class="mono">Now</span>
+                    <div>
+                        <h3>Track Ed GA</h3>
+                        <p>Telemetry simulator, dispatch alerts, predictive ETA, REST &amp; GraphQL.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="mono">Next</span>
+                    <div>
+                        <h3>AnviPulse private beta</h3>
+                        <p>Workflow monitors and exception routing for ops teams already on Track Ed.</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="mono">Later</span>
+                    <div>
+                        <h3>AnviVault</h3>
+                        <p>Zero-knowledge audit logs for operators who cannot leak payload contents.</p>
+                    </div>
+                </li>
+            </ol>
         </div>
     </section>
 
-    <section id="studio" class="studio">
-        <div class="container">
-            <div class="section-head">
-                <p class="eyebrow">Studio</p>
-                <h2>A studio for products — ours and yours</h2>
-                <p>Anvilabs ships its own applications, starting with TrackEd. We also design and build apps for people and teams who want that same craft on their idea.</p>
-            </div>
-            <div class="studio-grid">
-                <div class="studio-points">
-                    <div>
-                        <strong>Founder-led</strong>
-                        <p>Built by Pradeep Reddy Kumbam, with a bias toward shipping working software.</p>
-                    </div>
-                    <div>
-                        <strong>Two ways to work</strong>
-                        <p>Anvilabs products stay in our catalog. Custom apps are built for you.</p>
-                    </div>
-                    <div>
-                        <strong>Modern craft</strong>
-                        <p>Interfaces that feel clear and alive — motion, feedback, and no filler.</p>
-                    </div>
-                </div>
-                <aside class="studio-card">
-                    <p class="mini-kicker">Company</p>
-                    <h3>Who Anvilabs is</h3>
-                    <p class="studio-lead">A founder-led studio in India. We ship products like TrackEd and we take on custom apps when someone needs software built well.</p>
-                    <dl class="studio-facts">
-                        <div>
-                            <dt>Founder</dt>
-                            <dd>Pradeep Reddy Kumbam</dd>
-                        </div>
-                        <div>
-                            <dt>Focus</dt>
-                            <dd>iOS, product design, and full apps from idea to launch</dd>
-                        </div>
-                        <div>
-                            <dt>Flagship</dt>
-                            <dd>TrackEd — student planner, focus, career, and resume on iOS</dd>
-                        </div>
-                        <div>
-                            <dt>For clients</dt>
-                            <dd>Custom applications designed and built for you to use and own</dd>
-                        </div>
-                        <div>
-                            <dt>Contact</dt>
-                            <dd><a href="mailto:contact@anvilabs.com">contact@anvilabs.com</a></dd>
-                        </div>
-                    </dl>
-                </aside>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container contact-grid">
+    <section id="about" class="about">
+        <div class="container about-grid">
             <div>
-                <p class="eyebrow">Contact</p>
-                <h2>Let’s talk about TrackEd or a custom app</h2>
-                <p>Ask about TrackEd, request an app built for you, or get in touch about what Anvilabs is shipping next.</p>
-                <ul class="contact-list">
-                    <li><span>Email</span> <a href="mailto:contact@anvilabs.com">contact@anvilabs.com</a></li>
-                    <li><span>Web</span> <a href="https://anvilabs.com">anvilabs.com</a></li>
-                </ul>
+                <p class="eyebrow">About</p>
+                <h2>A venture-backed product studio</h2>
+                <p>AnviLabs is a product studio that ships self-serve SaaS. Operators run Track Ed today; AnviPulse and AnviVault follow on the Labs roadmap.</p>
+                <p>The studio is led by Pradeep Reddy Kumbam. Engineering, design, and product sit in the same loop so a telemetry event and a UI state stay in sync.</p>
             </div>
-            <form class="contact-form" id="contact-form">
-                <label>
-                    Name
-                    <input type="text" name="name" required placeholder="Your name">
-                </label>
-                <label>
-                    Email
-                    <input type="email" name="email" required placeholder="you@company.com">
-                </label>
-                <label>
-                    What should we talk about?
-                    <select name="topic">
-                        <option value="tracked">TrackEd</option>
-                        <option value="custom">Custom app</option>
-                        <option value="waitlist">Upcoming products</option>
-                        <option value="partnership">Partnership</option>
-                        <option value="other">Something else</option>
-                    </select>
-                </label>
-                <label>
-                    Message
-                    <textarea name="message" rows="5" required placeholder="Tell us what you want to use or what you want us to build."></textarea>
-                </label>
-                <button type="submit" class="btn btn-primary magnetic">Send to Anvilabs</button>
-                <p class="form-note" id="form-note" hidden></p>
+            <aside class="about-card">
+                <p class="mono kicker">anvilabs.com</p>
+                <h3>AnviLabs</h3>
+                <ul>
+                    <li>Category: Product studio / SaaS</li>
+                    <li>Flagship: Track Ed</li>
+                    <li>Model: self-serve products, not services</li>
+                </ul>
+            </aside>
+        </div>
+    </section>
+
+    <section id="access" class="access">
+        <div class="container access-box">
+            <div>
+                <p class="eyebrow">Early access</p>
+                <h2>Developer updates</h2>
+                <p>Join 2,000+ teams receiving AnviLabs release notes, API updates, and beta access.</p>
+            </div>
+            <form class="access-form" id="access-form">
+                <label class="sr-only" for="access-email">Work email</label>
+                <input id="access-email" type="email" name="email" required placeholder="you@company.com" autocomplete="email">
+                <button type="submit" class="btn btn-primary">Get updates</button>
             </form>
+            <p class="form-note" id="access-note" hidden></p>
         </div>
     </section>
 
     <footer class="footer">
-        <div class="container footer-row">
+        <div class="container footer-grid">
             <div class="footer-brand">
-                <img src="icon.png" alt="" width="36" height="36">
+                <img src="icon.png" alt="" width="32" height="32">
                 <div>
-                    <strong>Anvilabs</strong>
-                    <p>We ship our own products and we build apps for people.</p>
+                    <strong>AnviLabs</strong>
+                    <p>Standalone, scalable software products.</p>
                 </div>
             </div>
-            <a class="footer-mail" href="mailto:contact@anvilabs.com">contact@anvilabs.com</a>
+            <div>
+                <p class="mono footer-label">Product ecosystem</p>
+                <a href="#tracked">Track Ed</a>
+                <a href="#products">AnviPulse</a>
+                <a href="#products">AnviVault</a>
+            </div>
+            <div>
+                <p class="mono footer-label">Developers</p>
+                <a href="#docs" data-open-docs>Documentation</a>
+                <a href="#architecture">Architecture</a>
+                <button type="button" class="linkish" data-open-legal="privacy">Privacy</button>
+                <button type="button" class="linkish" data-open-legal="terms">Terms</button>
+            </div>
+            <div class="status-block">
+                <p class="mono footer-label">API status</p>
+                <p class="api-status"><span class="ok-dot"></span> All Systems Operational</p>
+            </div>
         </div>
         <div class="container footer-bottom">
-            <p>© <span id="year"></span> Anvilabs. All rights reserved.</p>
+            <p>© <span id="year"></span> AnviLabs. All rights reserved.</p>
         </div>
     </footer>
 
+    <div class="modal" id="docs-modal" hidden>
+        <div class="modal-card" role="dialog" aria-labelledby="docs-title">
+            <div class="modal-head">
+                <h2 id="docs-title">Track Ed API</h2>
+                <button type="button" class="icon-btn" data-close-modal aria-label="Close">×</button>
+            </div>
+            <p>Self-serve telemetry. Replace the token after you create a workspace.</p>
+            <pre class="mono"><code>POST /v1/shipments/{id}/events
+Authorization: Bearer &lt;token&gt;
+{ "stage": "in_transit", "lat": 17.385, "lng": 78.486 }</code></pre>
+            <p>GraphQL endpoint: <span class="mono">https://api.anvilabs.com/graphql</span></p>
+        </div>
+    </div>
+
+    <div class="modal" id="legal-modal" hidden>
+        <div class="modal-card" role="dialog" aria-labelledby="legal-title">
+            <div class="modal-head">
+                <h2 id="legal-title">Privacy</h2>
+                <button type="button" class="icon-btn" data-close-modal aria-label="Close">×</button>
+            </div>
+            <div id="legal-body"></div>
+        </div>
+    </div>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="script.js?v=studio-align"></script>
+    <script src="script.js?v=saas-2" defer></script>
 </body>
 </html>
