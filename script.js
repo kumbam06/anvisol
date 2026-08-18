@@ -132,7 +132,7 @@ if (canvas && ctx) {
 }
 
 const labels = {
-    tracked: "track-ed.app",
+    tracked: "TrackEd · iOS",
     lab: "anvilabs.com/lab",
     next: "anvilabs.com/next"
 };
@@ -196,48 +196,55 @@ document.querySelectorAll(".ship-step").forEach((button) => {
     });
 });
 
-function stamp(hoursAgo) {
-    const date = new Date(Date.now() - hoursAgo * 3600 * 1000);
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-}
-
-function runTrace(statusEl, items) {
-    if (statusEl) statusEl.textContent = "Tracing route…";
-    items.forEach((item) => item.classList.remove("done", "now"));
-    const times = [30, 18, 8, 3, 0];
-    items.forEach((item, index) => {
-        window.setTimeout(() => {
-            items.forEach((row) => row.classList.remove("now"));
-            item.classList.add("done", "now");
-            const time = item.querySelector("time");
-            if (time) time.textContent = stamp(times[index] || 0);
-            if (index === items.length - 1) {
-                item.classList.remove("now");
-                if (statusEl) statusEl.textContent = "Route complete · delivered";
-                showToast("Track Ed finished the trace.");
-            }
-        }, 420 * (index + 1));
-    });
+function parseTask(text) {
+    const value = (text || "").trim() || "New study block";
+    const lower = value.toLowerCase();
+    let when = "Today";
+    if (lower.includes("tomorrow")) when = "Tomorrow";
+    if (/\d{1,2}(am|pm)/i.test(lower) || /\d{1,2}:\d{2}/.test(lower)) {
+        const match = value.match(/(\d{1,2}(?::\d{2})?\s?(?:am|pm)?)/i);
+        if (match) when = match[1].toUpperCase();
+    }
+    if (lower.includes("urgent")) when = "Urgent";
+    return { title: value.replace(/\s+urgent$/i, "").trim(), when };
 }
 
 const trackerForm = document.getElementById("tracker-form");
+const route = document.getElementById("route");
 trackerForm?.addEventListener("submit", (event) => {
     event.preventDefault();
+    const input = document.getElementById("tracking-number");
     const status = document.getElementById("tracker-status");
-    const items = [...document.querySelectorAll("#route li")];
-    runTrace(status, items);
+    const parsed = parseTask(input?.value);
+    if (!route) return;
+    const item = document.createElement("li");
+    item.className = "now";
+    item.innerHTML = `<span class="dot"></span><div><strong>${parsed.title}</strong><p>Added from natural language</p></div><time>${parsed.when}</time>`;
+    route.querySelectorAll("li").forEach((row) => row.classList.remove("now"));
+    route.prepend(item);
+    if (status) status.textContent = `Planned: ${parsed.title}`;
+    showToast("TrackEd added it to today’s plan.");
+    if (input) input.value = "";
+});
+
+route?.addEventListener("click", (event) => {
+    const item = event.target.closest("li");
+    if (!item) return;
+    item.classList.toggle("done");
+    item.classList.remove("now");
 });
 
 document.getElementById("hero-track-btn")?.addEventListener("click", () => {
-    const items = [...document.querySelectorAll("#hero-pulse li")];
-    items.forEach((item) => item.classList.remove("done", "now"));
-    items.forEach((item, index) => {
-        window.setTimeout(() => {
-            items.forEach((row) => row.classList.remove("now"));
-            item.classList.add("done", "now");
-            if (index === items.length - 1) showToast("Hero trace complete.");
-        }, 280 * (index + 1));
-    });
+    const input = document.getElementById("hero-track-input");
+    const list = document.getElementById("hero-pulse");
+    if (!list) return;
+    const parsed = parseTask(input?.value);
+    const item = document.createElement("li");
+    item.className = "now";
+    item.innerHTML = `<i></i><div><b>${parsed.title}</b><span>${parsed.when}</span></div>`;
+    list.querySelectorAll("li").forEach((row) => row.classList.remove("now"));
+    list.prepend(item);
+    showToast("Task planned in TrackEd.");
 });
 
 const contactForm = document.getElementById("contact-form");

@@ -625,6 +625,7 @@ section {
     grid-template-columns: 16px minmax(0, 1fr) auto;
     gap: 0.8rem;
     align-items: start;
+    cursor: pointer;
 }
 
 .pulse-list i,
