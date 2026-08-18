@@ -315,11 +315,19 @@ html[data-theme="light"] .theme-toggle .sun {
     transform: translateY(-7px) rotate(-45deg);
 }
 
+section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 0;
+    scroll-margin-top: 5.5rem;
+}
+
 .hero {
     position: relative;
     z-index: 1;
     min-height: 100vh;
     padding: 8.2rem 0 4rem;
+    scroll-margin-top: 0;
 }
 
 .hero-glow {
@@ -687,12 +695,6 @@ html[data-theme="light"] .theme-toggle .sun {
 .progress-note {
     color: var(--muted);
     font-size: 0.85rem;
-}
-
-section {
-    position: relative;
-    z-index: 1;
-    padding: 6rem 0;
 }
 
 .section-head {
