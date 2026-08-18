@@ -872,10 +872,14 @@ section {
     padding: 1.2rem;
 }
 
+.studio-grid {
+    align-items: start;
+}
+
 .studio-points {
     display: grid;
     gap: 0.8rem;
-    margin-top: 1.4rem;
+    margin-top: 0;
 }
 
 .studio-card {
