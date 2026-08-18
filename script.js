@@ -196,6 +196,16 @@ document.querySelectorAll(".ship-step").forEach((button) => {
     });
 });
 
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    }[char]));
+}
+
 function parseTask(text) {
     const value = (text || "").trim() || "New study block";
     const lower = value.toLowerCase();
@@ -219,7 +229,7 @@ trackerForm?.addEventListener("submit", (event) => {
     if (!route) return;
     const item = document.createElement("li");
     item.className = "now";
-    item.innerHTML = `<span class="dot"></span><div><strong>${parsed.title}</strong><p>Added from natural language</p></div><time>${parsed.when}</time>`;
+    item.innerHTML = `<span class="dot"></span><div><strong>${escapeHtml(parsed.title)}</strong><p>Added from natural language</p></div><time>${escapeHtml(parsed.when)}</time>`;
     route.querySelectorAll("li").forEach((row) => row.classList.remove("now"));
     route.prepend(item);
     if (status) status.textContent = `Planned: ${parsed.title}`;
@@ -241,7 +251,7 @@ document.getElementById("hero-track-btn")?.addEventListener("click", () => {
     const parsed = parseTask(input?.value);
     const item = document.createElement("li");
     item.className = "now";
-    item.innerHTML = `<i></i><div><b>${parsed.title}</b><span>${parsed.when}</span></div>`;
+    item.innerHTML = `<i></i><div><b>${escapeHtml(parsed.title)}</b><span>${escapeHtml(parsed.when)}</span></div>`;
     list.querySelectorAll("li").forEach((row) => row.classList.remove("now"));
     list.prepend(item);
     showToast("Task planned in TrackEd.");
