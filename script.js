@@ -42,52 +42,11 @@ function showToast(message) {
     showToast.timer = window.setTimeout(() => toast.classList.remove("is-on"), 2800);
 }
 
-const finePointer = window.matchMedia("(pointer: fine)").matches;
-const cursor = document.querySelector(".cursor");
-const cursorDot = document.querySelector(".cursor-dot");
-if (finePointer && cursor && cursorDot) {
-    document.body.classList.add("has-custom-cursor");
-    let x = window.innerWidth / 2;
-    let y = window.innerHeight / 2;
-    let cx = x;
-    let cy = y;
-    window.addEventListener("mousemove", (event) => {
-        x = event.clientX;
-        y = event.clientY;
-        cursorDot.style.left = `${x}px`;
-        cursorDot.style.top = `${y}px`;
-    });
-    const tick = () => {
-        cx += (x - cx) * 0.18;
-        cy += (y - cy) * 0.18;
-        cursor.style.left = `${cx}px`;
-        cursor.style.top = `${cy}px`;
-        requestAnimationFrame(tick);
-    };
-    tick();
-    document.querySelectorAll("a, button, input, textarea, select").forEach((el) => {
-        el.addEventListener("mouseenter", () => cursor.classList.add("is-hover"));
-        el.addEventListener("mouseleave", () => cursor.classList.remove("is-hover"));
-    });
-}
-
-document.querySelectorAll(".magnetic").forEach((el) => {
-    el.addEventListener("mousemove", (event) => {
-        const box = el.getBoundingClientRect();
-        const mx = event.clientX - box.left - box.width / 2;
-        const my = event.clientY - box.top - box.height / 2;
-        el.style.transform = `translate(${mx * 0.18}px, ${my * 0.18}px)`;
-    });
-    el.addEventListener("mouseleave", () => {
-        el.style.transform = "translate(0, 0)";
-    });
-});
-
 document.querySelectorAll("[data-tilt]").forEach((card) => {
     card.addEventListener("mousemove", (event) => {
         const box = card.getBoundingClientRect();
-        const rx = ((event.clientY - box.top) / box.height - 0.5) * -8;
-        const ry = ((event.clientX - box.left) / box.width - 0.5) * 8;
+        const rx = ((event.clientY - box.top) / box.height - 0.5) * -6;
+        const ry = ((event.clientX - box.left) / box.width - 0.5) * 6;
         card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     });
     card.addEventListener("mouseleave", () => {
@@ -105,7 +64,7 @@ function sizeCanvas() {
 }
 function seedDots() {
     dots.length = 0;
-    const count = Math.min(90, Math.floor((window.innerWidth * window.innerHeight) / 18000));
+    const count = Math.min(48, Math.floor((window.innerWidth * window.innerHeight) / 28000));
     for (let i = 0; i < count; i += 1) {
         dots.push({
             x: Math.random() * window.innerWidth,
