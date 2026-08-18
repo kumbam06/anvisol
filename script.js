@@ -165,23 +165,23 @@ document.querySelectorAll(".filter").forEach((button) => {
 const shipCopy = [
     {
         kicker: "Stage 01",
-        title: "Own the problem",
-        body: "We do not take random client briefs as the core business. We pick problems Anvilabs can operate for years — then we productize the solution."
+        title: "Understand the problem",
+        body: "Whether it is an Anvilabs product or an app for you, we start with who will use it and what has to work on day one."
     },
     {
         kicker: "Stage 02",
-        title: "Design the smallest useful product",
-        body: "A thin slice that a real person can use beats a 40-page proposal. Interface, data, and one sharp outcome."
+        title: "Design a useful first version",
+        body: "A thin slice a real person can use beats a 40-page deck. Interface, data, and one sharp outcome."
     },
     {
         kicker: "Stage 03",
-        title: "Build, upload, and put it in front of people",
-        body: "Code ships. The product gets a public surface. Feedback starts the moment someone can click."
+        title: "Build and put it in people’s hands",
+        body: "Code ships. The app gets in front of users. Feedback starts the moment someone can tap."
     },
     {
         kicker: "Stage 04",
-        title: "Measure, iterate, then stack the next app",
-        body: "We keep the products we launch. Improvements go into the same catalog, and the studio starts the next title."
+        title: "Measure, improve, keep going",
+        body: "We iterate on Anvilabs products in our catalog, and we keep custom apps improving with you."
     }
 ];
 const shipDetail = document.getElementById("ship-detail");
