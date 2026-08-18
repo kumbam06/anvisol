@@ -1,465 +1,269 @@
-// Mobile Menu Toggle
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
+const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector(".nav-menu");
+hamburger?.addEventListener("click", () => {
+    const open = navMenu.classList.toggle("is-open");
+    hamburger.classList.toggle("active", open);
+    hamburger.setAttribute("aria-expanded", String(open));
 });
-
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+navMenu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+        navMenu.classList.remove("is-open");
+        hamburger?.classList.remove("active");
+        hamburger?.setAttribute("aria-expanded", "false");
     });
 });
 
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (event) => {
+        const id = anchor.getAttribute("href");
+        const target = id ? document.querySelector(id) : null;
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
 });
 
-// Navbar background change on scroll
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.8)';
-        navbar.style.boxShadow = 'none';
-    }
-});
+const progress = document.querySelector(".scroll-progress");
+window.addEventListener("scroll", () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const value = max > 0 ? (window.scrollY / max) * 100 : 0;
+    if (progress) progress.style.width = `${value}%`;
+}, { passive: true });
 
-// Intersection Observer for scroll animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe all sections for animation
-document.querySelectorAll('section').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(30px)';
-    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    observer.observe(section);
-});
-
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    const heroVisual = document.querySelector('.hero-visual');
-    
-    if (hero && heroVisual) {
-        heroVisual.style.transform = `translateY(-50%) translateX(${scrolled * 0.1}px)`;
-    }
-});
-
-// Floating shapes animation
-const shapes = document.querySelectorAll('.shape');
-shapes.forEach((shape, index) => {
-    shape.style.animationDelay = `${index * 0.5}s`;
-});
-
-// Track Ed App Interactions
-const trackingItems = document.querySelectorAll('.tracking-item');
-trackingItems.forEach((item, index) => {
-    item.addEventListener('click', () => {
-        // Simulate tracking update
-        const trackDot = item.querySelector('.track-dot');
-        const trackTime = item.querySelector('.track-time');
-        
-        if (!trackDot.classList.contains('active')) {
-            trackDot.classList.add('active');
-            trackTime.textContent = 'Just now';
-            
-            // Add notification effect
-            showNotification('Package status updated!', 'success');
-        }
-    });
-});
-
-// Demo phone interactions
-const demoBtn = document.querySelector('.demo-btn');
-const demoInput = document.querySelector('.demo-search input');
-const timelineItems = document.querySelectorAll('.timeline-item');
-
-if (demoBtn && demoInput) {
-    demoBtn.addEventListener('click', () => {
-        const trackingNumber = demoInput.value;
-        if (trackingNumber.trim()) {
-            // Simulate tracking search
-            demoBtn.textContent = 'Searching...';
-            demoBtn.disabled = true;
-            
-            setTimeout(() => {
-                demoBtn.textContent = 'Track';
-                demoBtn.disabled = false;
-                
-                // Animate timeline items
-                timelineItems.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.style.opacity = '0';
-                        item.style.transform = 'translateX(-20px)';
-                        item.style.transition = 'all 0.5s ease';
-                        
-                        setTimeout(() => {
-                            item.classList.add('completed');
-                            item.style.opacity = '1';
-                            item.style.transform = 'translateX(0)';
-                        }, 300);
-                    }, index * 500);
-                });
-                
-                showNotification('Tracking results loaded!', 'success');
-            }, 2000);
-        }
-    });
+const toast = document.getElementById("toast");
+function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("is-on");
+    window.clearTimeout(showToast.timer);
+    showToast.timer = window.setTimeout(() => toast.classList.remove("is-on"), 2800);
 }
 
-// Notification system
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification-toast ${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span class="notification-icon">${type === 'success' ? '✅' : 'ℹ️'}</span>
-            <span class="notification-message">${message}</span>
-        </div>
-    `;
-    
-    // Add styles
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: ${type === 'success' ? '#28a745' : '#007aff'};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-        transform: translateX(400px);
-        transition: transform 0.3s ease;
-        max-width: 300px;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Remove after 3 seconds
-    setTimeout(() => {
-        notification.style.transform = 'translateX(400px)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
-
-// Hero section typing effect with enhanced animation
-const heroTitle = document.querySelector('.hero-title');
-if (heroTitle) {
-    const text = heroTitle.textContent;
-    heroTitle.textContent = '';
-    heroTitle.style.borderRight = '2px solid white';
-    
-    let i = 0;
-    const typeWriter = () => {
-        if (i < text.length) {
-            heroTitle.textContent += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, 100);
-        } else {
-            // Remove cursor after typing
-            setTimeout(() => {
-                heroTitle.style.borderRight = 'none';
-            }, 1000);
-        }
+const finePointer = window.matchMedia("(pointer: fine)").matches;
+const cursor = document.querySelector(".cursor");
+const cursorDot = document.querySelector(".cursor-dot");
+if (finePointer && cursor && cursorDot) {
+    document.body.classList.add("has-custom-cursor");
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+    let cx = x;
+    let cy = y;
+    window.addEventListener("mousemove", (event) => {
+        x = event.clientX;
+        y = event.clientY;
+        cursorDot.style.left = `${x}px`;
+        cursorDot.style.top = `${y}px`;
+    });
+    const tick = () => {
+        cx += (x - cx) * 0.18;
+        cy += (y - cy) * 0.18;
+        cursor.style.left = `${cx}px`;
+        cursor.style.top = `${cy}px`;
+        requestAnimationFrame(tick);
     };
-    
-    // Start typing effect after a short delay
-    setTimeout(typeWriter, 500);
-}
-
-// Feature cards hover effects
-document.querySelectorAll('.feature-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px) scale(1.02)';
-        card.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.15)';
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1)';
-        card.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.1)';
-    });
-});
-
-// Phone mockup interactions
-const phoneMockup = document.querySelector('.phone-mockup');
-if (phoneMockup) {
-    phoneMockup.addEventListener('mousemove', (e) => {
-        const rect = phoneMockup.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 20;
-        const rotateY = (centerX - x) / 20;
-        
-        phoneMockup.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    });
-    
-    phoneMockup.addEventListener('mouseleave', () => {
-        phoneMockup.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+    tick();
+    document.querySelectorAll("a, button, input, textarea, select").forEach((el) => {
+        el.addEventListener("mouseenter", () => cursor.classList.add("is-hover"));
+        el.addEventListener("mouseleave", () => cursor.classList.remove("is-hover"));
     });
 }
 
-// Floating notifications animation
-const notifications = document.querySelectorAll('.notification');
-notifications.forEach((notification, index) => {
-    notification.addEventListener('animationend', () => {
-        // Restart animation
-        notification.style.animation = 'none';
-        setTimeout(() => {
-            notification.style.animation = `notificationFloat 4s ease-in-out infinite ${index * 2}s`;
-        }, 100);
+document.querySelectorAll(".magnetic").forEach((el) => {
+    el.addEventListener("mousemove", (event) => {
+        const box = el.getBoundingClientRect();
+        const mx = event.clientX - box.left - box.width / 2;
+        const my = event.clientY - box.top - box.height / 2;
+        el.style.transform = `translate(${mx * 0.18}px, ${my * 0.18}px)`;
+    });
+    el.addEventListener("mouseleave", () => {
+        el.style.transform = "translate(0, 0)";
     });
 });
 
-// Counter animation for stats
-const animateCounters = () => {
-    const counters = document.querySelectorAll('.stat-number');
-    
-    counters.forEach(counter => {
-        const target = parseInt(counter.textContent);
-        const increment = target / 100;
-        let current = 0;
-        
-        const updateCounter = () => {
-            if (current < target) {
-                current += increment;
-                counter.textContent = Math.ceil(current) + '+';
-                setTimeout(updateCounter, 20);
-            } else {
-                counter.textContent = target + '+';
-            }
-        };
-        
-        updateCounter();
+document.querySelectorAll("[data-tilt]").forEach((card) => {
+    card.addEventListener("mousemove", (event) => {
+        const box = card.getBoundingClientRect();
+        const rx = ((event.clientY - box.top) / box.height - 0.5) * -8;
+        const ry = ((event.clientX - box.left) / box.width - 0.5) * 8;
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     });
-};
+    card.addEventListener("mouseleave", () => {
+        card.style.transform = "perspective(900px) rotateX(0) rotateY(0)";
+    });
+});
 
-// Trigger counter animation when stats section is visible
-const statsSection = document.querySelector('.stats');
-if (statsSection) {
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                statsObserver.unobserve(entry.target);
-            }
+const canvas = document.getElementById("field");
+const ctx = canvas?.getContext("2d");
+const dots = [];
+function sizeCanvas() {
+    if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+function seedDots() {
+    dots.length = 0;
+    const count = Math.min(90, Math.floor((window.innerWidth * window.innerHeight) / 18000));
+    for (let i = 0; i < count; i += 1) {
+        dots.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            vx: (Math.random() - 0.5) * 0.35,
+            vy: (Math.random() - 0.5) * 0.35
         });
-    }, { threshold: 0.5 });
-    
-    statsObserver.observe(statsSection);
+    }
 }
-
-// Form submission handling
-const contactForm = document.querySelector('.contact-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(contactForm);
-        const name = contactForm.querySelector('input[type="text"]').value;
-        const email = contactForm.querySelector('input[type="email"]').value;
-        const message = contactForm.querySelector('textarea').value;
-        
-        // Simple validation
-        if (!name || !email || !message) {
-            showNotification('Please fill in all fields', 'error');
-            return;
-        }
-        
-        // Simulate form submission
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        
-        submitBtn.textContent = 'Sending...';
-        submitBtn.disabled = true;
-        
-        setTimeout(() => {
-            showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
-            contactForm.reset();
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }, 2000);
+let pointer = { x: -9999, y: -9999 };
+window.addEventListener("mousemove", (event) => {
+    pointer = { x: event.clientX, y: event.clientY };
+});
+function drawField() {
+    if (!ctx || !canvas) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    dots.forEach((dot) => {
+        dot.x += dot.vx;
+        dot.y += dot.vy;
+        if (dot.x < 0 || dot.x > canvas.width) dot.vx *= -1;
+        if (dot.y < 0 || dot.y > canvas.height) dot.vy *= -1;
+        const dx = dot.x - pointer.x;
+        const dy = dot.y - pointer.y;
+        const dist = Math.hypot(dx, dy);
+        ctx.beginPath();
+        ctx.fillStyle = dist < 140 ? "rgba(46, 230, 166, 0.55)" : "rgba(124, 92, 255, 0.28)";
+        ctx.arc(dot.x, dot.y, dist < 140 ? 2.2 : 1.2, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    requestAnimationFrame(drawField);
+}
+if (canvas && ctx) {
+    sizeCanvas();
+    seedDots();
+    drawField();
+    window.addEventListener("resize", () => {
+        sizeCanvas();
+        seedDots();
     });
 }
 
-// Hover effects for service cards
-document.querySelectorAll('.service-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px) scale(1.02)';
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-    
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-});
-
-// Smooth reveal animation for elements
-const revealElements = document.querySelectorAll('.service-card, .portfolio-item, .team-member, .testimonial-card, .feature-card');
-
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-});
-
-revealElements.forEach(element => {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(30px)';
-    element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    revealObserver.observe(element);
-});
-
-// Add cursor trail effect
-let mouseX = 0;
-let mouseY = 0;
-let trail = [];
-
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    trail.push({ x: mouseX, y: mouseY });
-    
-    if (trail.length > 10) {
-        trail.shift();
-    }
-    
-    // Create subtle cursor trail effect
-    if (trail.length > 1) {
-        const lastPoint = trail[trail.length - 1];
-        const prevPoint = trail[trail.length - 2];
-        
-        // You can add visual effects here if desired
-    }
-});
-
-// Add scroll progress indicator
-const createScrollProgress = () => {
-    const progressBar = document.createElement('div');
-    progressBar.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 3px;
-        background: linear-gradient(90deg, #007aff, #667eea);
-        z-index: 1001;
-        transition: width 0.1s ease;
-    `;
-    document.body.appendChild(progressBar);
-    
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset;
-        const docHeight = document.body.offsetHeight - window.innerHeight;
-        const scrollPercent = (scrollTop / docHeight) * 100;
-        progressBar.style.width = scrollPercent + '%';
-    });
+const labels = {
+    tracked: "track-ed.app",
+    lab: "anvisol.studio/lab",
+    next: "anvisol.studio/next"
 };
-
-createScrollProgress();
-
-// Add keyboard navigation support
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        // Close mobile menu
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-    }
+document.querySelectorAll(".switcher-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+        const product = button.dataset.product;
+        document.querySelectorAll(".switcher-btn").forEach((item) => {
+            item.classList.toggle("is-active", item === button);
+            item.setAttribute("aria-selected", String(item === button));
+        });
+        document.querySelectorAll(".stage-panel").forEach((panel) => {
+            panel.classList.toggle("is-visible", panel.dataset.panel === product);
+        });
+        const stageLabel = document.getElementById("stage-label");
+        if (stageLabel) stageLabel.textContent = labels[product] || "anvisol";
+    });
 });
 
-// Performance optimization: Throttle scroll events
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
+document.querySelectorAll(".filter").forEach((button) => {
+    button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        document.querySelectorAll(".filter").forEach((item) => item.classList.toggle("is-active", item === button));
+        document.querySelectorAll(".product-card").forEach((card) => {
+            const show = filter === "all" || card.dataset.category === filter;
+            card.classList.toggle("is-hidden", !show);
+        });
+    });
+});
+
+const shipCopy = [
+    {
+        kicker: "Stage 01",
+        title: "Own the problem",
+        body: "We do not take random client briefs as the core business. We pick problems Anvisol can operate for years — then we productize the solution."
+    },
+    {
+        kicker: "Stage 02",
+        title: "Design the smallest useful product",
+        body: "A thin slice that a real person can use beats a 40-page proposal. Interface, data, and one sharp outcome."
+    },
+    {
+        kicker: "Stage 03",
+        title: "Build, upload, and put it in front of people",
+        body: "Code ships. The product gets a public surface. Feedback starts the moment someone can click."
+    },
+    {
+        kicker: "Stage 04",
+        title: "Measure, iterate, then stack the next app",
+        body: "We keep the products we launch. Improvements go into the same catalog, and the studio starts the next title."
     }
+];
+const shipDetail = document.getElementById("ship-detail");
+document.querySelectorAll(".ship-step").forEach((button) => {
+    button.addEventListener("click", () => {
+        const index = Number(button.dataset.step || 0);
+        document.querySelectorAll(".ship-step").forEach((item) => item.classList.toggle("is-active", item === button));
+        const copy = shipCopy[index];
+        if (shipDetail && copy) {
+            shipDetail.innerHTML = `<p class="mini-kicker">${copy.kicker}</p><h3>${copy.title}</h3><p>${copy.body}</p>`;
+        }
+    });
+});
+
+function stamp(hoursAgo) {
+    const date = new Date(Date.now() - hoursAgo * 3600 * 1000);
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-// Apply throttling to scroll events
-window.addEventListener('scroll', throttle(() => {
-    // Scroll-based animations here
-}, 16)); // ~60fps
+function runTrace(statusEl, items) {
+    if (statusEl) statusEl.textContent = "Tracing route…";
+    items.forEach((item) => item.classList.remove("done", "now"));
+    const times = [30, 18, 8, 3, 0];
+    items.forEach((item, index) => {
+        window.setTimeout(() => {
+            items.forEach((row) => row.classList.remove("now"));
+            item.classList.add("done", "now");
+            const time = item.querySelector("time");
+            if (time) time.textContent = stamp(times[index] || 0);
+            if (index === items.length - 1) {
+                item.classList.remove("now");
+                if (statusEl) statusEl.textContent = "Route complete · delivered";
+                showToast("Track Ed finished the trace.");
+            }
+        }, 420 * (index + 1));
+    });
+}
 
-// Add CSS for notification toast
-const style = document.createElement('style');
-style.textContent = `
-    .notification-toast .notification-content {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+const trackerForm = document.getElementById("tracker-form");
+trackerForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const status = document.getElementById("tracker-status");
+    const items = [...document.querySelectorAll("#route li")];
+    runTrace(status, items);
+});
+
+document.getElementById("hero-track-btn")?.addEventListener("click", () => {
+    const items = [...document.querySelectorAll("#hero-pulse li")];
+    items.forEach((item) => item.classList.remove("done", "now"));
+    items.forEach((item, index) => {
+        window.setTimeout(() => {
+            items.forEach((row) => row.classList.remove("now"));
+            item.classList.add("done", "now");
+            if (index === items.length - 1) showToast("Hero trace complete.");
+        }, 280 * (index + 1));
+    });
+});
+
+const contactForm = document.getElementById("contact-form");
+contactForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const note = document.getElementById("form-note");
+    if (note) {
+        note.hidden = false;
+        note.textContent = "Message captured locally. Email contact@anvisol.in and we will reply.";
     }
-    
-    .notification-toast .notification-icon {
-        font-size: 1.2rem;
-    }
-    
-    .notification-toast .notification-message {
-        font-size: 0.9rem;
-        font-weight: 500;
-    }
-`;
-document.head.appendChild(style); 
+    contactForm.reset();
+    showToast("Thanks — Anvisol got your note.");
+});
