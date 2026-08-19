@@ -25,7 +25,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable}`}>
+    <html lang="en" className={`${sans.variable} ${display.variable}`} suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#f4f1ea" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("anvilabs-theme");if(t!=="dark"&&t!=="light")t="light";document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t;}catch(e){}})();`
+          }}
+        />
+      </head>
       <body className="min-h-screen font-sans">
         <Navbar />
         {children}

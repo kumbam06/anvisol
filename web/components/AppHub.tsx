@@ -18,7 +18,7 @@ export function AppHub() {
             <div className="flex items-center justify-between gap-3">
               <span
                 className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                  app.status === "active" ? "bg-blue-50 text-accent" : "bg-mist text-mute"
+                  app.status === "active" ? "bg-accent/15 text-accent" : "bg-mist text-mute"
                 }`}
               >
                 {app.status === "active" ? "iOS · Active" : "Coming soon / In Lab"}

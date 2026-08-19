@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <h1 className="font-display text-5xl">Privacy Policy</h1>
       <p className="mt-2 text-sm text-mute">Last updated {new Date().getFullYear()}. App Store–oriented notice for GradMate.</p>
 
-      <section className="mt-10 rounded-3xl border border-accent/30 bg-blue-50/60 p-6">
+      <section className="mt-10 rounded-3xl border border-accent/30 bg-accent/10 p-6">
         <h2 className="font-display text-2xl">Career data</h2>
         <p className="mt-3 text-sm leading-relaxed text-ink">
           Résumés, cover letters, skills, certifications, internships, and work history exist so you can apply for jobs

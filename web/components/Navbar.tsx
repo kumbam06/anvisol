@@ -5,10 +5,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NavCta } from "./NavCta";
+import { ThemeToggle } from "./ThemeToggle";
 
 const items = [
   { href: "/apps/", label: "Apps" },
   { href: "/#features", label: "Features" },
+  { href: "/about/", label: "About" },
   { href: "/support/", label: "Support" }
 ];
 
@@ -34,18 +36,22 @@ export function Navbar() {
             </Link>
           ))}
         </nav>
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <NavCta />
         </div>
-        <button
-          type="button"
-          className="rounded-xl border border-line bg-paper p-2 md:hidden"
-          aria-expanded={open}
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? <X size={18} /> : <Menu size={18} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="rounded-xl border border-line bg-paper p-2"
+            aria-expanded={open}
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
       </div>
       {open ? (
         <div className="border-t border-line bg-mist/95 px-4 py-4 backdrop-blur-xl md:hidden">
