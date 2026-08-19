@@ -11,7 +11,7 @@ export function NavCta() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent"
+        className="rounded-full bg-solid px-5 py-2.5 text-sm font-semibold text-solid-fg transition hover:bg-accent hover:text-white"
       >
         Join Beta
       </button>

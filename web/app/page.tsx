@@ -1,4 +1,5 @@
 import { AppHub } from "@/components/AppHub";
+import { AboutSection } from "@/components/AboutSection";
 import { FeatureGrid } from "@/components/FeatureGrid";
 import { PhoneMock } from "@/components/PhoneMock";
 import { StoreActions } from "@/components/StoreActions";
@@ -23,6 +24,7 @@ export default function HomePage() {
       </section>
       <FeatureGrid />
       <AppHub />
+      <AboutSection />
     </main>
   );
 }

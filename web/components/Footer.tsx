@@ -39,6 +39,11 @@ export function Footer() {
               </a>
             </li>
             <li>
+              <Link className="hover:text-ink" href="/#about">
+                About the studio
+              </Link>
+            </li>
+            <li>
               <Link className="hover:text-ink" href="/support/">
                 Support center
               </Link>
